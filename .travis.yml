@@ -2,7 +2,6 @@ language: php
 
 matrix:
     include:
-        - php: 7.1
         - php: 7.2
         - php: 7.3
         - php: 7.4
@@ -71,7 +70,8 @@ install:
 
     # beanstalk
     - sudo apt-get install -y beanstalkd
-    - sudo beanstalkd -d -l 127.0.0.1 -p 11300
+    #- sudo beanstalkd -d -l 127.0.0.1 -p 11300
+    - sudo beanstalkd -l 127.0.0.1 -p 11300
 
     # uopz
     - >
