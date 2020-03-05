@@ -13,8 +13,9 @@ namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\ExceptionalQueue;
 use Phive\Queue\QueueException;
+use PHPUnit\Framework\TestCase;
 
-class ExceptionalQueueTest extends \PHPUnit_Framework_TestCase
+class ExceptionalQueueTest extends TestCase
 {
     use Util;
 
@@ -24,7 +25,7 @@ class ExceptionalQueueTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->innerQueue = $this->getQueueMock();
         $this->queue = new ExceptionalQueue($this->innerQueue);
@@ -62,10 +63,11 @@ class ExceptionalQueueTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideQueueInterfaceMethods
-     * @expectedException \Phive\Queue\QueueException
      */
     public function testThrowOriginalQueueException($method)
     {
+        $this->expectException(QueueException::class);
+
         $this->innerQueue->expects($this->once())->method($method)
             ->will($this->throwException(new QueueException($this->innerQueue)));
 
@@ -74,10 +76,10 @@ class ExceptionalQueueTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideQueueInterfaceMethods
-     * @expectedException \Phive\Queue\QueueException
      */
     public function testThrowWrappedQueueException($method)
     {
+        $this->expectException(QueueException::class);
         $this->innerQueue->expects($this->once())->method($method)
             ->will($this->throwException(new \Exception()));
 

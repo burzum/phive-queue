@@ -12,8 +12,9 @@
 namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\TypeSafeQueue;
+use PHPUnit\Framework\TestCase;
 
-class TypeSafeQueueTest extends \PHPUnit_Framework_TestCase
+class TypeSafeQueueTest extends TestCase
 {
     use Util;
 
@@ -23,7 +24,7 @@ class TypeSafeQueueTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->innerQueue = $this->getQueueMock();
         $this->queue = new TypeSafeQueue($this->innerQueue);

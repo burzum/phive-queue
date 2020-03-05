@@ -12,8 +12,9 @@
 namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\QueueException;
+use PHPUnit\Framework\TestCase;
 
-class QueueExceptionTest extends \PHPUnit_Framework_TestCase
+class QueueExceptionTest extends TestCase
 {
     use Util;
 
@@ -25,7 +26,7 @@ class QueueExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->queue = $this->getQueueMock();
     }

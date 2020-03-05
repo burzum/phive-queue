@@ -12,6 +12,7 @@
 namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\Tests\Handler\PheanstalkHandler;
+use PHPUnit\Framework\Warning;
 
 class PheanstalkQueueTest extends QueueTest
 {
@@ -27,11 +28,11 @@ class PheanstalkQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException PHPUnit_Framework_Error_Warning
-     * @expectedExceptionMessage expects parameter 1 to be string
      */
     public function testUnsupportedItemType($item)
     {
+        $this->expectException(Warning::class);
+        $this->expectExceptionMessage('expects parameter 1 to be string');
         $this->queue->push($item);
     }
 

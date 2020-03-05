@@ -82,7 +82,7 @@ class PheanstalkQueue implements Queue
     protected function doClear($state)
     {
         try {
-            while ($item = $this->pheanstalk->{'peek'.$state}($this->tubeName)) {
+            while ($item = $this->pheanstalk->{'peek' . $state}($this->tubeName)) {
                 $this->pheanstalk->delete($item);
             }
         } catch (ServerException $e) {

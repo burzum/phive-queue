@@ -44,7 +44,7 @@ class PheanstalkHandler extends Handler
     private function doClear($tubeName, $state)
     {
         try {
-            while ($item = $this->pheanstalk->{'peek'.$state}($tubeName)) {
+            while ($item = $this->pheanstalk->{'peek' . $state}($tubeName)) {
                 $this->pheanstalk->delete($item);
             }
         } catch (ServerException $e) {

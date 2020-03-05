@@ -121,7 +121,7 @@ class SysVQueue implements Queue
     private static function getErrorMessage($errorCode)
     {
         if ($errorCode) {
-            return posix_strerror($errorCode).'.';
+            return posix_strerror($errorCode) . '.';
         }
 
         $error = error_get_last();

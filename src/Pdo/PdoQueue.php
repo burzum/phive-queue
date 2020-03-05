@@ -47,7 +47,8 @@ abstract class PdoQueue implements Queue
      */
     public function push($item, $eta = null)
     {
-        $sql = sprintf('INSERT INTO %s (eta, item) VALUES (%d, %s)',
+        $sql = sprintf(
+            'INSERT INTO %s (eta, item) VALUES (%d, %s)',
             $this->tableName,
             QueueUtils::normalizeEta($eta),
             $this->pdo->quote($item)
@@ -61,7 +62,7 @@ abstract class PdoQueue implements Queue
      */
     public function count()
     {
-        $stmt = $this->pdo->query('SELECT COUNT(*) FROM '.$this->tableName);
+        $stmt = $this->pdo->query('SELECT COUNT(*) FROM ' . $this->tableName);
         $result = $stmt->fetchColumn();
         $stmt->closeCursor();
 
@@ -73,7 +74,7 @@ abstract class PdoQueue implements Queue
      */
     public function clear()
     {
-        $this->pdo->exec('DELETE FROM '.$this->tableName);
+        $this->pdo->exec('DELETE FROM ' . $this->tableName);
     }
 
     /**

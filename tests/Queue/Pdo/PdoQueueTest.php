@@ -11,6 +11,8 @@
 
 namespace Phive\Queue\Tests\Queue\Pdo;
 
+use Exception;
+use InvalidArgumentException;
 use Phive\Queue\NoItemAvailableException;
 use Phive\Queue\Tests\Handler\PdoHandler;
 use Phive\Queue\Tests\Queue\Concurrency;
@@ -18,6 +20,7 @@ use Phive\Queue\Tests\Queue\Performance;
 use Phive\Queue\Tests\Queue\QueueTest;
 use Phive\Queue\Tests\Queue\Types;
 use Phive\Queue\Tests\Queue\Util;
+
 
 abstract class PdoQueueTest extends QueueTest
 {
@@ -32,11 +35,12 @@ abstract class PdoQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException PHPUnit_Framework_Exception
-     * @expectedExceptionMessageRegExp /expects parameter 1 to be string|Binary strings are not identical/
      */
     public function testUnsupportedItemType($item, $type)
     {
+        $this->expectException(\Throwable::class);
+        $this->expectExceptionMessageMatches('/expects parameter 1 to be string|Binary strings are not identical/');
+
         $this->queue->push($item);
 
         if (Types::TYPE_BINARY_STRING === $type && $item !== $this->queue->pop()) {
@@ -50,7 +54,7 @@ abstract class PdoQueueTest extends QueueTest
     public function testThrowExceptionOnMalformedSql($method)
     {
         $options = self::getHandler()->getOptions();
-        $options['table_name'] = uniqid('non_existing_table_name_');
+        $options['table_name'] = uniqid('non_existing_table_name_', true);
 
         $handler = new PdoHandler($options);
         $queue = $handler->createQueue();
@@ -66,11 +70,12 @@ abstract class PdoQueueTest extends QueueTest
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage PDO driver "foobar" is unsupported
+     * @return void
      */
-    public function testThrowExceptionOnUnsupportedDriver()
+    public function testThrowExceptionOnUnsupportedDriver(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PDO driver "foobar" is unsupported');
         $pdo = new MockPdo();
         $pdo->driverName = 'foobar';
 

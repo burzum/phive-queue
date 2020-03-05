@@ -14,8 +14,9 @@ namespace Phive\Queue\Tests\Queue;
 use Phive\Queue\NoItemAvailableException;
 use Phive\Queue\Queue;
 use Phive\Queue\Tests\TimeUtils;
+use PHPUnit\Framework\TestCase;
 
-abstract class QueueTest extends \PHPUnit_Framework_TestCase
+abstract class QueueTest extends TestCase
 {
     use Util;
 
@@ -34,7 +35,7 @@ abstract class QueueTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->queue = $this->createQueue();
     }
@@ -101,7 +102,7 @@ abstract class QueueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->queue->count());
 
         for ($i = $count = 5; $i; $i--) {
-            $this->queue->push('item'.$i);
+            $this->queue->push('item' . $i);
         }
 
         $this->assertEquals($count, $this->queue->count());

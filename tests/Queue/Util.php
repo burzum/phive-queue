@@ -20,7 +20,7 @@ trait Util
      */
     public function getQueueMock()
     {
-        return $this->getMock('Phive\Queue\Queue');
+        return $this->getMockBuilder('Phive\Queue\Queue')->getMock();
     }
 
     public function provideQueueInterfaceMethods()

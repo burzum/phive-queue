@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $worker = new \GearmanWorker();
 $worker->addServer();
 
-$workerId = uniqid(getmypid().'_', true);
+$workerId = uniqid(getmypid() . '_', true);
 $worker->addFunction('pop', function (\GearmanJob $job) use ($workerId) {
     static $i = 0;
 
@@ -24,19 +24,20 @@ $worker->addFunction('pop', function (\GearmanJob $job) use ($workerId) {
 
     $item = $queue->pop();
 
-    printf("%s: %s item #%s\n",
+    printf(
+        "%s: %s item #%s\n",
         str_pad(++$i, 4, ' ', STR_PAD_LEFT),
-        str_pad($queueName.' ', 50, '.'),
+        str_pad($queueName . ' ', 50, '.'),
         $item
     );
 
-    return $workerId.':'.$item;
+    return $workerId . ':' . $item;
 });
 
 echo "Waiting for a job...\n";
 while ($worker->work()) {
     if (GEARMAN_SUCCESS !== $worker->returnCode()) {
-        echo $worker->error()."\n";
+        echo $worker->error() . "\n";
         exit(1);
     }
 }

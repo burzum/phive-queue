@@ -33,11 +33,11 @@ class SysVQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException Phive\Queue\QueueException
-     * @expectedExceptionMessageRegExp /^Message parameter must be either a string or a number\./
      */
     public function testUnsupportedItemType($item)
     {
+        $this->expectException(QueueException::class);
+        $this->expectExceptionMessageMatches('/^Message parameter must be either a string or a number\./');
         @$this->queue->push($item);
     }
 
@@ -84,7 +84,9 @@ class SysVQueueTest extends QueueTest
     public function testThrowExceptionOnInabilityToCreateResource($method)
     {
         uopz_backup('msg_get_queue');
-        uopz_function('msg_get_queue', function () { return false; });
+        uopz_function('msg_get_queue', function () {
+            return false;
+        });
 
         $passed = false;
 
@@ -154,7 +156,7 @@ class SysVQueueTest extends QueueTest
 
         if ($itemLength * $queueSize > $maxSizeInBytes) {
             $this->markTestSkipped(sprintf(
-                'The System V queue size is too small (%d bytes) to run this test. '.
+                'The System V queue size is too small (%d bytes) to run this test. ' .
                 'Try to decrease the "PHIVE_PERF_QUEUE_SIZE" environment variable to %d.',
                 $maxSizeInBytes,
                 floor($maxSizeInBytes / $itemLength)

@@ -15,6 +15,7 @@ use Phive\Queue\NoItemAvailableException;
 use Phive\Queue\QueueException;
 use Phive\Queue\RedisQueue;
 use Phive\Queue\Tests\Handler\RedisHandler;
+use PHPUnit\Exception;
 
 /**
  * @requires function Redis::connect
@@ -31,11 +32,12 @@ class RedisQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException PHPUnit_Framework_Exception
-     * @expectedExceptionMessageRegExp /could not be converted to string|Array to string conversion/
      */
     public function testUnsupportedItemType($item)
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageMatches('/could not be converted to string|Array to string conversion/');
+
         $this->queue->push($item);
     }
 

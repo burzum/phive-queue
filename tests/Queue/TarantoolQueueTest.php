@@ -12,6 +12,7 @@
 namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\Tests\Handler\TarantoolHandler;
+use PHPUnit\Exception;
 
 /**
  * @requires extension tarantool
@@ -30,11 +31,11 @@ class TarantoolQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException PHPUnit_Framework_Exception
-     * @expectedExceptionMessageRegExp /could not be converted to string|Array to string conversion|unsupported field type/
      */
     public function testUnsupportedItemType($item)
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessageRegExp('/could not be converted to string|Array to string conversion|unsupported field type/');
         $this->queue->push($item);
     }
 

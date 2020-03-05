@@ -27,14 +27,14 @@ class PdoHandler extends Handler
 
     public function getQueueName(Queue $queue)
     {
-        return parent::getQueueName($queue).'#'.$this->driverName;
+        return parent::getQueueName($queue) . '#' . $this->driverName;
     }
 
     public function getQueueClass()
     {
         $prefix = 'sqlite' === $this->driverName ? 'Sqlite' : 'Generic';
 
-        return '\\Phive\\Queue\\Pdo\\'.$prefix.'PdoQueue';
+        return '\\Phive\\Queue\\Pdo\\' . $prefix . 'PdoQueue';
     }
 
     public function createQueue()
@@ -46,12 +46,12 @@ class PdoHandler extends Handler
 
     public function reset()
     {
-        $sqlDir = realpath(__DIR__.'/../../res/'.$this->driverName);
+        $sqlDir = realpath(__DIR__ . '/../../res/' . $this->driverName);
 
-        foreach (glob($sqlDir.'/*.sql') as $file) {
+        foreach (glob($sqlDir . '/*.sql') as $file) {
             $sql = strtr(file_get_contents($file), [
                 '{{table_name}}'    => $this->getOption('table_name'),
-                '{{routine_name}}'  => $this->getOption('table_name').'_pop',
+                '{{routine_name}}'  => $this->getOption('table_name') . '_pop',
             ]);
 
             $this->pdo->exec($sql);
@@ -60,7 +60,7 @@ class PdoHandler extends Handler
 
     public function clear()
     {
-        $this->pdo->exec('DELETE FROM '.$this->getOption('table_name'));
+        $this->pdo->exec('DELETE FROM ' . $this->getOption('table_name'));
     }
 
     protected function configure()

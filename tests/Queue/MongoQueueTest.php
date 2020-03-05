@@ -28,11 +28,11 @@ class MongoQueueTest extends QueueTest
 
     /**
      * @dataProvider provideItemsOfUnsupportedTypes
-     * @expectedException Exception
-     * @expectedExceptionMessageRegExp /zero-length keys are not allowed|non-utf8 string|Objects are not identical/
      */
     public function testUnsupportedItemType($item, $type)
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/zero-length keys are not allowed|non-utf8 string|Objects are not identical/');
         $this->queue->push($item);
 
         if (Types::TYPE_OBJECT === $type && $item !== $this->queue->pop()) {

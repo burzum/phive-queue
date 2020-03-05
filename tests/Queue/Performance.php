@@ -20,7 +20,7 @@ trait Performance
     public function testPushPopPerformance($delay)
     {
         $queueSize = static::getPerformanceQueueSize();
-        $queueName = preg_replace('~^'.preg_quote(__NAMESPACE__).'\\\|Test$~', '', get_class($this));
+        $queueName = preg_replace('~^' . preg_quote(__NAMESPACE__) . '\\\|Test$~', '', get_class($this));
         $item = str_repeat('x', static::getPerformanceItemLength());
 
         printf("\n%s::push()%s\n", $queueName, $delay ? ' (delayed)' : '');

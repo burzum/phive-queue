@@ -38,7 +38,7 @@ class GenericPdoQueue extends PdoQueue
     {
         parent::__construct($pdo, $tableName);
 
-        $this->routineName = $routineName ?: $this->tableName.'_pop';
+        $this->routineName = $routineName ?: $this->tableName . '_pop';
     }
 
     /**

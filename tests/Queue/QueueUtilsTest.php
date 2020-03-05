@@ -12,8 +12,9 @@
 namespace Phive\Queue\Tests\Queue;
 
 use Phive\Queue\QueueUtils;
+use PHPUnit\Framework\TestCase;
 
-class QueueUtilsTest extends \PHPUnit_Framework_TestCase
+class QueueUtilsTest extends TestCase
 {
     /**
      * @dataProvider provideValidEtas
@@ -29,11 +30,12 @@ class QueueUtilsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideInvalidEtas
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The eta parameter is not valid.
      */
     public function testNormalizeEtaThrowsException($eta)
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The eta parameter is not valid.');
+
         QueueUtils::normalizeEta($eta);
     }
 
@@ -53,11 +55,15 @@ class QueueUtilsTest extends \PHPUnit_Framework_TestCase
         return [
             [0, 0, 0],
             [-1, -1, 0],
-            [null, function () { return time(); }, 0],
+            [null, function () {
+                return time();
+            }, 0],
             [$now, $now, 0],
-            ['@'.$now, $now, 0],
+            ['@' . $now, $now, 0],
             [$date->format(\DateTime::ISO8601), $now, 0],
-            ['+1 hour', function () { return time() + 3600; }, 3600],
+            ['+1 hour', function () {
+                return time() + 3600;
+            }, 3600],
             [$date, $now, 0],
         ];
     }
