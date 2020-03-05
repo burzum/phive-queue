@@ -12,6 +12,8 @@ matrix:
 services:
     - mongodb
     - redis-server
+    - mysql
+    - postgresql
 
 before_install:
     # gearman
